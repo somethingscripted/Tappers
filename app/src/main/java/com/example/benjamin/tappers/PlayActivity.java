@@ -36,7 +36,7 @@ public class PlayActivity extends AppCompatActivity {
                 );
 
         final TextView timer = (TextView) findViewById(R.id.timer);
-        new CountDownTimer(30000, 1000) {
+        new CountDownTimer(10000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timer.setText("seconds remaining: " + millisUntilFinished / 1000);
