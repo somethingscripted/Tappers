@@ -1,6 +1,7 @@
 package com.example.benjamin.tappers;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
@@ -50,16 +51,16 @@ public class PlayActivity extends AppCompatActivity {
                 AlertDialog.Builder a_builder = new AlertDialog.Builder(PlayActivity.this);
                 a_builder.setMessage("Do you want to play again? ")
                         .setCancelable(false)
-                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                              reload();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 finish();
-                            }
-                        })
-                        .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
                             }
                         });
 
@@ -100,6 +101,15 @@ public class PlayActivity extends AppCompatActivity {
 
         l.setMargins(randWidth, randHeight, 0, 0);
         b.setLayoutParams(l);
+    }
+
+    public void reload() {
+        Intent intent = getIntent();
+        overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
     }
 
 
