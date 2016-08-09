@@ -41,15 +41,31 @@ public class PlayActivity extends AppCompatActivity {
 
 
         final TextView timer = (TextView) findViewById(R.id.timer);
+        final TextView points = (TextView) findViewById(R.id.points);
+        points.setText("Points = 0");
+
+        theButton.setOnClickListener(new Button.OnClickListener() {
+            int n = 0;
+            public void onClick(View v)
+            {
+                String num =  Integer.toString(n);
+                changeLocation(theButton, lp);
+                n++;
+                points.setText("Points = " + n);
+
+
+            }
+        });
+
         new CountDownTimer(10000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                timer.setText("seconds remaining: " + millisUntilFinished / 1000);
+                timer.setText("Seconds remaining: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
                 AlertDialog.Builder a_builder = new AlertDialog.Builder(PlayActivity.this);
-                a_builder.setMessage("Do you want to play again? ")
+                a_builder.setMessage("You have earned points!\nDo you want to play again? ")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
@@ -72,18 +88,6 @@ public class PlayActivity extends AppCompatActivity {
         }.start();
 
 
-
-        theButton.setOnClickListener(new Button.OnClickListener() {
-            int n = 0;
-            public void onClick(View v)
-            {
-                String num =  Integer.toString(n);
-                changeLocation(theButton, lp);
-                // theButton.setText(num);
-                // n++;
-
-            }
-        });
 
 
     }
