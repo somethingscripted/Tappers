@@ -1,6 +1,9 @@
 package com.example.benjamin.tappers;
 
+import android.content.DialogInterface;
 import android.os.CountDownTimer;
+import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -35,6 +38,7 @@ public class PlayActivity extends AppCompatActivity {
                 r.getDisplayMetrics()
                 );
 
+
         final TextView timer = (TextView) findViewById(R.id.timer);
         new CountDownTimer(10000, 1000) {
 
@@ -43,7 +47,26 @@ public class PlayActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                timer.setText("done!");
+                AlertDialog.Builder a_builder = new AlertDialog.Builder(PlayActivity.this);
+                a_builder.setMessage("Do you want to play again? ")
+                        .setCancelable(false)
+                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+
+                AlertDialog alert = a_builder.create();
+                alert.setTitle("Time's up!");
+                alert.show();
+
             }
         }.start();
 
