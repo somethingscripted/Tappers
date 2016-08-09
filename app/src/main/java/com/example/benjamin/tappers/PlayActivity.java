@@ -1,5 +1,6 @@
 package com.example.benjamin.tappers;
 
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -10,6 +11,7 @@ import android.view.View;
 import java.util.Random;
 import android.content.res.Resources;
 import android.util.TypedValue;
+import android.widget.TextView;
 
 
 public class PlayActivity extends AppCompatActivity {
@@ -32,6 +34,18 @@ public class PlayActivity extends AppCompatActivity {
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
                 r.getDisplayMetrics()
                 );
+
+        final TextView timer = (TextView) findViewById(R.id.timer);
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timer.setText("seconds remaining: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                timer.setText("done!");
+            }
+        }.start();
 
 
 
