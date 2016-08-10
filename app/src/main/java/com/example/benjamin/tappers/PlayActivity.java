@@ -39,7 +39,6 @@ public class PlayActivity extends AppCompatActivity {
                 r.getDisplayMetrics()
                 );
 
-
         final TextView timer = (TextView) findViewById(R.id.timer);
         final TextView points = (TextView) findViewById(R.id.points);
         points.setText("Points = 0");
@@ -48,23 +47,24 @@ public class PlayActivity extends AppCompatActivity {
             int n = 0;
             public void onClick(View v)
             {
-                String num =  Integer.toString(n);
-                changeLocation(theButton, lp);
+                changeLocation(theButton);
                 n++;
                 points.setText("Points = " + n);
 
 
             }
         });
-
-        new CountDownTimer(10000, 1000) {
+        new CountDownTimer(15000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timer.setText("Seconds remaining: " + millisUntilFinished / 1000);
             }
 
+
+
             public void onFinish() {
                 AlertDialog.Builder a_builder = new AlertDialog.Builder(PlayActivity.this);
+
                 a_builder.setMessage("You have earned points!\nDo you want to play again? ")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -89,10 +89,9 @@ public class PlayActivity extends AppCompatActivity {
 
 
 
-
     }
 
-    public void changeLocation(Button b, RelativeLayout.LayoutParams l) {
+    public void changeLocation(Button b) {
 
 
         DisplayMetrics metrics = new DisplayMetrics();
@@ -100,9 +99,12 @@ public class PlayActivity extends AppCompatActivity {
         Random rand = new Random();
 
         // I took 25% of the phone's display and that seems to work (for now) Need to figure out how to acquire activity's display range in pixels.
-        int randWidth = rand.nextInt((int) Math.ceil(metrics.widthPixels*0.80));
-        int randHeight = rand.nextInt((int) Math.ceil(metrics.heightPixels*0.80));
+        // This does not work properly on all device screen which confuses me :(
+        int randWidth = rand.nextInt((int) Math.ceil(metrics.widthPixels*0.60));
+        int randHeight = rand.nextInt((int) Math.ceil(metrics.heightPixels*0.60));
 
+
+        RelativeLayout.LayoutParams l = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         l.setMargins(randWidth, randHeight, 0, 0);
         b.setLayoutParams(l);
     }
@@ -115,6 +117,7 @@ public class PlayActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
         startActivity(intent);
     }
+
 
 
 }
