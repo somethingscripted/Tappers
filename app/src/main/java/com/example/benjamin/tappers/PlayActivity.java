@@ -34,6 +34,7 @@ public class PlayActivity extends AppCompatActivity {
         theButton.setLayoutParams(lp);
         theButton.setText("");
 
+
         Resources r = getResources();
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
                 r.getDisplayMetrics()
