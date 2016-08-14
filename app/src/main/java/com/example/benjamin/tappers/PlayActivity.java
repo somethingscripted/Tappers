@@ -11,11 +11,11 @@ import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.view.View;
-
-import java.util.Random;
 import android.content.res.Resources;
 import android.util.TypedValue;
 import android.widget.TextView;
+
+import java.util.Random;
 
 
 public class PlayActivity extends AppCompatActivity {
@@ -44,34 +44,38 @@ public class PlayActivity extends AppCompatActivity {
         final TextView points = (TextView) findViewById(R.id.points);
         points.setText("Points = 0");
 
-        theButton.setOnClickListener(new Button.OnClickListener() {
-            int n = 0;
-            public void onClick(View v)
-            {
+        final int finalValue = 1;
+
+         final Button.OnClickListener ButtonClicked = new Button.OnClickListener() {
+             public int value = 0;
+             public void onClick(View v) {
+                value++;
                 changeLocation(theButton);
-                n++;
-                points.setText("Points = " + n);
-
-
+                points.setText("Points = " + value);
             }
-        });
-        new CountDownTimer(15000, 1000) {
+        };
+
+
+        theButton.setOnClickListener(ButtonClicked);
+
+
+        new CountDownTimer(15000, 100) {
 
             public void onTick(long millisUntilFinished) {
-                timer.setText("Seconds remaining: " + millisUntilFinished / 1000);
+                timer.setText("Seconds remaining: " + millisUntilFinished / 100);
             }
 
 
 
             public void onFinish() {
                 AlertDialog.Builder a_builder = new AlertDialog.Builder(PlayActivity.this);
-
-                a_builder.setMessage("You have earned points!\nDo you want to play again? ")
+                //HOW THE HELL DO I FIGURE OUT HOW TO GET THE VALUE FROM THE PLAY SCREEN TO THE POP UP SCREEN
+                a_builder.setMessage("You have earned points but I don't know how much because I can't program!!\nDo you want to play again? ")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                              reload();
+                                reload();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -101,12 +105,12 @@ public class PlayActivity extends AppCompatActivity {
 
         // I took 25% of the phone's display and that seems to work (for now) Need to figure out how to acquire activity's display range in pixels.
         // This does not work properly on all device screen which confuses me :(
-        int randWidth = rand.nextInt((int) Math.ceil(metrics.widthPixels*0.60));
-        int randHeight = rand.nextInt((int) Math.ceil(metrics.heightPixels*0.60));
+        int randWidth = rand.nextInt((int) Math.ceil(metrics.widthPixels*0.75));
+        int randHeight = rand.nextInt((int) Math.ceil(metrics.heightPixels*0.70));
 
 
         RelativeLayout.LayoutParams l = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        l.setMargins(randWidth, randHeight, 0, 0);
+        l.setMargins(randWidth, randHeight , 0, 0);
         b.setLayoutParams(l);
     }
 
