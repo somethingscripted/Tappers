@@ -34,43 +34,46 @@ public class PlayActivity extends AppCompatActivity {
         theButton.setLayoutParams(lp);
         theButton.setText("");
 
-
         Resources r = getResources();
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
                 r.getDisplayMetrics()
                 );
 
         final TextView timer = (TextView) findViewById(R.id.timer);
+
+        //-------------------------------------------------------------------------//
         final TextView points = (TextView) findViewById(R.id.points);
         points.setText("Points = 0");
 
-        final int finalValue = 1;
-
-         final Button.OnClickListener ButtonClicked = new Button.OnClickListener() {
-             public int value = 0;
-             public void onClick(View v) {
+        class ButtonClick implements View.OnClickListener {
+            int value = 0;
+            @Override
+            public void onClick(View v) {
                 value++;
                 changeLocation(theButton);
-                points.setText("Points = " + value);
-            }
-        };
-
-
-        theButton.setOnClickListener(ButtonClicked);
-
-
-        new CountDownTimer(15000, 100) {
-
-            public void onTick(long millisUntilFinished) {
-                timer.setText("Seconds remaining: " + millisUntilFinished / 100);
+                points.setText("Points = " + value); // This value increases
             }
 
+            public int getValue() {
+                return value;
+            } // This returns 0.
+        }
 
+        final ButtonClick buttonClicked = new ButtonClick();
+        theButton.setOnClickListener(buttonClicked);
+
+
+        new CountDownTimer(6000, 100) {
+
+            public void onTick(long SecUntilFinished) {
+                timer.setText("Seconds remaining: " + SecUntilFinished/1000);
+            }
 
             public void onFinish() {
-                AlertDialog.Builder a_builder = new AlertDialog.Builder(PlayActivity.this);
-                //HOW THE HELL DO I FIGURE OUT HOW TO GET THE VALUE FROM THE PLAY SCREEN TO THE POP UP SCREEN
-                a_builder.setMessage("You have earned points but I don't know how much because I can't program!!\nDo you want to play again? ")
+                theButton.setOnClickListener(null);
+                int finalValue = buttonClicked.getValue();
+                AlertDialog.Builder a_builder = new AlertDialog.Builder(PlayActivity.this)
+                        .setMessage("You have earned " + finalValue + " points!\nDo you want to play again?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
@@ -86,7 +89,7 @@ public class PlayActivity extends AppCompatActivity {
                         });
 
                 AlertDialog alert = a_builder.create();
-                alert.setTitle("Time's up!");
+                alert.setTitle("Times up!");
                 alert.show();
 
             }
@@ -122,7 +125,5 @@ public class PlayActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
         startActivity(intent);
     }
-
-
 
 }
