@@ -66,7 +66,7 @@ public class PlayActivity extends AppCompatActivity {
 
 
 
-        new CountDownTimer(6000, 100) {
+        new CountDownTimer(13000, 100) {
 
             public void onTick(long SecUntilFinished) {
                 timer.setText("Seconds remaining: " + SecUntilFinished/1000);
@@ -74,14 +74,23 @@ public class PlayActivity extends AppCompatActivity {
 
             public void onFinish() {
                 theButton.setOnClickListener(null);
-                int finalValue = buttonClicked.getValue();
 
                 SharedPreferences SP = getSharedPreferences("myData", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = SP.edit();
+                boolean highscoreTick = false;
+
+                int finalValue = buttonClicked.getValue();
+                int timesPlayed = SP.getInt("timesPlayed", 0);
+
                 if(SP.getInt("highscore", 0) < finalValue) {
+                     highscoreTick = true;
                     editor.putInt("highscore", finalValue);
                     editor.apply();
                 }
+
+                timesPlayed++;
+                editor.putInt("timesPlayed", timesPlayed);
+                editor.apply();
 
                 AlertDialog.Builder a_builder = new AlertDialog.Builder(PlayActivity.this)
                         .setMessage("You have earned " + finalValue + " points!\nDo you want to play again?")
@@ -100,7 +109,8 @@ public class PlayActivity extends AppCompatActivity {
                         });
 
                 AlertDialog alert = a_builder.create();
-                alert.setTitle("Times up!");
+                if (highscoreTick) {alert.setTitle("New High Score!"); }
+                else{ alert.setTitle("Times up!"); }
                 alert.show();
 
             }

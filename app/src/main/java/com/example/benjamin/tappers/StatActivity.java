@@ -20,6 +20,8 @@ public class StatActivity extends AppCompatActivity {
 
         int highscore = SP.getInt("highscore", 0);
         highScoreValue.setText(highscore + "");
+        int timesPlayed = SP.getInt("timesPlayed", 0);
+        timesPlayedValue.setText(timesPlayed + "");
 
     }
 }
