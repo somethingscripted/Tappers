@@ -15,7 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PlayActivity"></activity>
+        <activity android:name=".PlayActivity" />
+        <activity
+            android:name=".StatActivity"
+            android:label="@string/title_activity_stat" />
     </application>
 
 </manifest>

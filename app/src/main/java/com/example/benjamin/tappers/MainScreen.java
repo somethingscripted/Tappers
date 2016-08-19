@@ -18,4 +18,9 @@ public class MainScreen extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void statButtonClick(View v) {
+        Intent i = new Intent(this, StatActivity.class);
+        startActivity(i);
+    }
+
 }

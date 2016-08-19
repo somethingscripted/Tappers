@@ -1,7 +1,9 @@
 package com.example.benjamin.tappers;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
@@ -41,7 +43,7 @@ public class PlayActivity extends AppCompatActivity {
 
         final TextView timer = (TextView) findViewById(R.id.timer);
 
-        //-------------------------------------------------------------------------//
+
         final TextView points = (TextView) findViewById(R.id.points);
         points.setText("Points = 0");
 
@@ -51,16 +53,17 @@ public class PlayActivity extends AppCompatActivity {
             public void onClick(View v) {
                 value++;
                 changeLocation(theButton);
-                points.setText("Points = " + value); // This value increases
+                points.setText("Points = " + value);
             }
 
             public int getValue() {
                 return value;
-            } // This returns 0.
+            }
         }
 
         final ButtonClick buttonClicked = new ButtonClick();
         theButton.setOnClickListener(buttonClicked);
+
 
 
         new CountDownTimer(6000, 100) {
@@ -72,6 +75,14 @@ public class PlayActivity extends AppCompatActivity {
             public void onFinish() {
                 theButton.setOnClickListener(null);
                 int finalValue = buttonClicked.getValue();
+
+                SharedPreferences SP = getSharedPreferences("myData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = SP.edit();
+                if(SP.getInt("highscore", 0) < finalValue) {
+                    editor.putInt("highscore", finalValue);
+                    editor.apply();
+                }
+
                 AlertDialog.Builder a_builder = new AlertDialog.Builder(PlayActivity.this)
                         .setMessage("You have earned " + finalValue + " points!\nDo you want to play again?")
                         .setCancelable(false)
@@ -94,6 +105,17 @@ public class PlayActivity extends AppCompatActivity {
 
             }
         }.start();
+
+
+        int newScore = buttonClicked.getValue();
+        SharedPreferences prefs = this.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+        int oldScore = prefs.getInt("key", 0);
+        if(newScore > oldScore ){
+            points.setText("New High Score!!!");
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putInt("key", newScore);
+            edit.commit();
+        }
 
 
 
