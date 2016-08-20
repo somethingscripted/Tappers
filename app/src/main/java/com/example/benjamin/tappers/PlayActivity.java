@@ -109,25 +109,12 @@ public class PlayActivity extends AppCompatActivity {
                         });
 
                 AlertDialog alert = a_builder.create();
-                if (highscoreTick) {alert.setTitle("New High Score!"); }
+                if (highscoreTick) { alert.setTitle("New High Score!"); }
                 else{ alert.setTitle("Times up!"); }
                 alert.show();
 
             }
         }.start();
-
-
-        int newScore = buttonClicked.getValue();
-        SharedPreferences prefs = this.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
-        int oldScore = prefs.getInt("key", 0);
-        if(newScore > oldScore ){
-            points.setText("New High Score!!!");
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.putInt("key", newScore);
-            edit.commit();
-        }
-
-
 
     }
 

@@ -8,17 +8,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainScreen">
+        <activity android:name=".MainScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
-        <activity android:name=".PlayActivity" />
+        <activity android:name=".PlayActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".StatActivity"
-            android:label="@string/title_activity_stat" />
+            android:label="@string/title_activity_stat"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

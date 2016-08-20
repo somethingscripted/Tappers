@@ -19,9 +19,17 @@ public class StatActivity extends AppCompatActivity {
         SharedPreferences SP = getSharedPreferences("myData", Context.MODE_PRIVATE);
 
         int highscore = SP.getInt("highscore", 0);
-        highScoreValue.setText(highscore + "");
+        if (highscore == 1){
+            highScoreValue.setText(highscore + "point");
+        }
+        else {
+        highScoreValue.setText(highscore + "points"); }
         int timesPlayed = SP.getInt("timesPlayed", 0);
-        timesPlayedValue.setText(timesPlayed + "");
+        if (timesPlayed == 1){
+            timesPlayedValue.setText(timesPlayed + "time");
+        }
+        else{
+        timesPlayedValue.setText(timesPlayed + "times"); }
 
     }
 }
