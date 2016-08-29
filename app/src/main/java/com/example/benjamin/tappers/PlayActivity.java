@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.content.res.Resources;
 import android.util.TypedValue;
 import android.widget.TextView;
 import android.media.MediaPlayer;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -33,7 +35,8 @@ public class PlayActivity extends AppCompatActivity {
         final Button theButton = (Button) findViewById(R.id.theButton);
         theButton.setText("");
 
-        final RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        final RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                                                               RelativeLayout.LayoutParams.WRAP_CONTENT);
         lp.setMargins(320,320,0,0);
 
         theButton.setLayoutParams(lp);
@@ -42,12 +45,10 @@ public class PlayActivity extends AppCompatActivity {
 
         Resources r = getResources();
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
-                r.getDisplayMetrics()
-                );
+                                                 r.getDisplayMetrics()
+                                                );
 
         final TextView timer = (TextView) findViewById(R.id.timer);
-
-
         final TextView points = (TextView) findViewById(R.id.points);
         points.setText("Points = 0");
 
@@ -71,24 +72,25 @@ public class PlayActivity extends AppCompatActivity {
 
 
 
-        new CountDownTimer(6000, 100) {
+        CountDownTimer timee = new CountDownTimer(6000, 100) {
 
             public void onTick(long SecUntilFinished) {
                 timer.setText("Seconds remaining: " + SecUntilFinished/1000);
             }
 
             public void onFinish() {
+
                 theButton.setOnClickListener(null);
 
                 SharedPreferences SP = getSharedPreferences("myData", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = SP.edit();
-                boolean highscoreTick = false;
+                boolean highScoreTick = false;
 
                 int finalValue = buttonClicked.getValue();
                 int timesPlayed = SP.getInt("timesPlayed", 0);
 
                 if(SP.getInt("highscore", 0) < finalValue) {
-                     highscoreTick = true;
+                     highScoreTick = true;
                     editor.putInt("highscore", finalValue);
                     editor.apply();
                 }
@@ -114,12 +116,24 @@ public class PlayActivity extends AppCompatActivity {
                         });
 
                 AlertDialog alert = a_builder.create();
-                if (highscoreTick) { alert.setTitle("New High Score!"); }
+                if (highScoreTick) { alert.setTitle("New High Score!"); }
                 else{ alert.setTitle("Times up!"); }
                 alert.show();
 
             }
+
+
         }.start();
+
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        Toast.makeText(getApplicationContext(), "Back Button Pressed!", Toast.LENGTH_SHORT).show();
+
+        int pid = android.os.Process.myPid();
+        android.os.Process.killProcess(pid);
 
     }
 
@@ -134,11 +148,7 @@ public class PlayActivity extends AppCompatActivity {
         // This does not work properly on all device screen which confuses me :(
         int randWidth = rand.nextInt((int) Math.ceil(metrics.widthPixels*0.75));
         int randHeight = rand.nextInt((int) Math.ceil(metrics.heightPixels*0.70));
-
-
-        final Animation pulse = AnimationUtils.loadAnimation(this, R.anim.pulse);
-        button.startAnimation(pulse);
-
+        
         RelativeLayout.LayoutParams l = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         l.setMargins(randWidth, randHeight , 0, 0);
         b.setLayoutParams(l);
@@ -152,5 +162,6 @@ public class PlayActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
         startActivity(intent);
     }
+
 
 }
