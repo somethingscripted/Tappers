@@ -10,12 +10,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.view.View;
 import android.content.res.Resources;
 import android.util.TypedValue;
 import android.widget.TextView;
+import android.media.MediaPlayer;
 
 import java.util.Random;
 
@@ -36,6 +39,7 @@ public class PlayActivity extends AppCompatActivity {
         theButton.setLayoutParams(lp);
         theButton.setText("");
 
+
         Resources r = getResources();
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
                 r.getDisplayMetrics()
@@ -46,6 +50,7 @@ public class PlayActivity extends AppCompatActivity {
 
         final TextView points = (TextView) findViewById(R.id.points);
         points.setText("Points = 0");
+
 
         class ButtonClick implements View.OnClickListener {
             int value = 0;
@@ -66,7 +71,7 @@ public class PlayActivity extends AppCompatActivity {
 
 
 
-        new CountDownTimer(13000, 100) {
+        new CountDownTimer(6000, 100) {
 
             public void onTick(long SecUntilFinished) {
                 timer.setText("Seconds remaining: " + SecUntilFinished/1000);
@@ -120,7 +125,7 @@ public class PlayActivity extends AppCompatActivity {
 
     public void changeLocation(Button b) {
 
-
+        Button button = (Button) findViewById(R.id.theButton);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         Random rand = new Random();
@@ -130,6 +135,9 @@ public class PlayActivity extends AppCompatActivity {
         int randWidth = rand.nextInt((int) Math.ceil(metrics.widthPixels*0.75));
         int randHeight = rand.nextInt((int) Math.ceil(metrics.heightPixels*0.70));
 
+
+        final Animation pulse = AnimationUtils.loadAnimation(this, R.anim.pulse);
+        button.startAnimation(pulse);
 
         RelativeLayout.LayoutParams l = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         l.setMargins(randWidth, randHeight , 0, 0);

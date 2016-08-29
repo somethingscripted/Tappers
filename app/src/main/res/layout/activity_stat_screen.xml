@@ -41,7 +41,8 @@
         android:id="@+id/highScoreValue"
         android:layout_above="@+id/timesPlayedText"
         android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
+        android:layout_toEndOf="@+id/textView"
+        android:gravity="right" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,5 +52,22 @@
         android:id="@+id/timesPlayedValue"
         android:layout_below="@+id/highScoreValue"
         android:layout_alignRight="@+id/highScoreValue"
-        android:layout_alignEnd="@+id/highScoreValue" />
+        android:layout_alignEnd="@+id/highScoreValue"
+        android:gravity="right" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Clear Data?"
+        android:id="@+id/clearText"
+        android:onClick="clear"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/timesPlayedText"
+        android:layout_alignStart="@+id/timesPlayedText"
+        android:layout_marginBottom="81dp"
+        android:clickable="true"
+        android:textColor="#f083dc"
+        android:textStyle="bold" />
+
 </RelativeLayout>
