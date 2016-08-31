@@ -72,7 +72,7 @@ public class PlayActivity extends AppCompatActivity {
 
 
 
-        CountDownTimer timee = new CountDownTimer(6000, 100) {
+        new CountDownTimer(21000, 100) {
 
             public void onTick(long SecUntilFinished) {
                 timer.setText("Seconds remaining: " + SecUntilFinished/1000);
@@ -144,12 +144,11 @@ public class PlayActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         Random rand = new Random();
 
-        // I took 25% of the phone's display and that seems to work (for now) Need to figure out how to acquire activity's display range in pixels.
-        // This does not work properly on all device screen which confuses me :(
         int randWidth = rand.nextInt((int) Math.ceil(metrics.widthPixels*0.75));
         int randHeight = rand.nextInt((int) Math.ceil(metrics.heightPixels*0.70));
         
-        RelativeLayout.LayoutParams l = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams l = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                                                        RelativeLayout.LayoutParams.WRAP_CONTENT);
         l.setMargins(randWidth, randHeight , 0, 0);
         b.setLayoutParams(l);
     }
